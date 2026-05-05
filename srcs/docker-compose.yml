@@ -3,24 +3,24 @@ version: '1'
 services:
   nginx:
     build: ./requirements/nginx
-    port:
+    ports:
       - "8080:443"
     depends_on:
       - wordpress
-    network:
+    networks:
       - inception
   
   wordpress:
     build: ./requirements/wordpress
     depends_on:
       - mariadb
-    network:
+    networks:
       - inception
 
   mariadb:
     build: ./requirements/mariadb
-    network:
+    networks:
       - inception
 
-network:
+networks:
   inception:
