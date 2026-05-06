@@ -97,3 +97,15 @@ To remove image you need to remove container:
 ```bash
 docker rmi <name-image> 
 ```
+
+
+
+
+
+
+## Change language
+
+command for change laguage of keyboard:
+```bash
+sudo dpkg-reconfigure keyboard-configuration
+```
