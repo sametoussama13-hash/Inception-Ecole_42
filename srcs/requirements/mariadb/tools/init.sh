@@ -1,18 +1,17 @@
 #!/bin/bash
 
-DB_PASSWORD=$(cat /run/secrets/db_password.txt)
-
+MYSQ_PASSWORD=$(cat /run/secrets/db_password)
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/deb_root_password)
 
 mysqld_safe &
 
-mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 
-
-mysql -e "CREATE DATABASE IF NOT EXISTS wordpress;"
-mysql -e "CREATE USER IF NOT EXISTS 'osamet'@'%' IDENTIFIED BY '1234';"
-myqsl -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'osamet'@'%';"
+mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS wordpress;"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS 'osamet'@'%' IDENTIFIED BY '${MYSQ_PASSWORD}';"
+myqsl -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'osamet'@'%';"
 
 #Appli changement
-mysql -e "FLUSH PRIVILEGES;"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 
 service mariadb stop
 
