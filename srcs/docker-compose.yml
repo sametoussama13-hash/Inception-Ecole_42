@@ -1,14 +1,15 @@
-version: '1'
+version: '3'
 
 services:
   nginx:
     build: ./requirements/nginx
     ports:
-      - "8080:443"
+      - "443:443"
     depends_on:
       - wordpress
     networks:
       - inception
+    restart: always
   
   wordpress:
     build: ./requirements/wordpress
@@ -16,11 +17,20 @@ services:
       - mariadb
     networks:
       - inception
+    restart: always
 
   mariadb:
     build: ./requirements/mariadb
     networks:
       - inception
+    restart: always
+
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
 
 networks:
-  inception:
+  inception: 
+    driver: bridge
