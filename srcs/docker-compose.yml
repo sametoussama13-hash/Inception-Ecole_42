@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   nginx:
     build: ./requirements/nginx
@@ -21,6 +19,14 @@ services:
 
   mariadb:
     build: ./requirements/mariadb
+    secrets:
+      - db_password
+      - db_root_password
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    volumes:
+      - /home/samet/data/mariadb:/var/lib/mysql
     networks:
       - inception
     restart: always
